@@ -1,0 +1,171 @@
+html,
+body {
+   margin:0;
+   padding:0;
+   height:100%;
+}
+
+.navbar {
+background-color: #323767;
+width: 100%;
+padding: 1rem;
+display: flex;
+}
+
+
+.nav-item {
+color: #fff;
+font-weight: 500;
+text-decoration: none;
+padding: 0.5rem 1rem;
+margin: 0 0.5rem;
+border-radius: 0.5rem;
+transition: background 0.2s ease-in-out;
+}
+
+.nav-item:hover {
+background-color: rgba(255, 255, 255, 0.2);
+}
+
+.nav-item.is-active {
+background-color: #fff;
+color: #323767;
+font-weight: 700;
+}
+
+
+.card {
+width: 100%;
+max-width: 22rem;
+min-width: none;
+min-height: 2rem;
+position: relative;
+background-color: #fff;
+padding: 1rem;
+box-shadow: 0 0 1rem -0.5rem rgba(0, 0, 0, 0.5);
+margin-left: 50px;
+margin-right: 50px;
+
+
+
+}
+
+.card__title {
+font-size: 1.5rem;
+line-height: 2.5rem;
+margin: 0.5rem 0;
+}
+
+.card:before {
+content: "";
+width: 100%;
+height: 100%;
+background-color: #323767;
+position: absolute;
+top: 0;
+left: 0;
+z-index: -1;
+transform: rotate(6deg);
+}
+
+.mid-container {
+display: flex;
+justify-content: space-around;
+
+}
+
+.card-container {
+align-self: center;
+
+}
+
+
+
+
+.divider-text {
+position: relative;
+text-align: center;
+margin-top: 15px;
+margin-bottom: 15px;
+}
+.divider-text span {
+padding: 7px;
+font-size: 12px;
+position: relative;   
+z-index: 2;
+}
+.divider-text:after {
+content: "";
+position: absolute;
+width: 100%;
+border-bottom: 1px solid #ddd;
+top: 55%;
+left: 0;
+z-index: 1;
+}
+
+input {
+  min-width: 80%
+}
+.error-red {
+  color: red;
+}
+
+
+input.error-red {
+border: 1px solid darkred;
+}
+
+.form-container {
+height: 100%;
+display: flex;
+}
+
+.column-list {
+columns: 240px;
+margin: 0px 50px;
+
+}
+
+.column-list li {
+font-size: 16px;
+padding: 0px 5px;
+list-style-type: "\01F4C5";
+background-color: lightyellow;
+border-radius: 5px;
+margin: 5px;
+}
+
+.list-container {
+max-width: 100%;
+
+}
+
+.page-footer {
+background-color: #323767;
+width: 100%;
+
+}
+
+
+#container {
+    min-height:100%;
+    position:relative;
+    background-color: #f8f9fa;
+ }
+ #header {
+    background-color: #323767;
+    padding:10px;
+ }
+ #body {
+    padding:10px;
+    padding-bottom:60px;   /* Height of the footer */
+    
+ }
+ #footer {
+    position:absolute;
+    bottom:0;
+    width:100%;
+    height:60px;   /* Height of the footer */
+    background-color: #323767;
+ }
