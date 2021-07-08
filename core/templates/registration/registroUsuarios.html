@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'core/css/bootstrap.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'core/css/style-login.css' %}" type="text/css">
+
+</head>
+<body>
+    <div class="wrapper fadeInDown">
+        <div >        
+      
+          <!-- Icono -->
+          <div class="mt-3 mb-3">
+            <img src="{% static 'core/img/sticker_4.png' %}" height="70" width="70" />
+          </div>
+      
+          <!-- formulario login -->
+          <form method="POST">
+              {% csrf_token%}
+              {{ form }}
+            <input type="submit" class="fadeIn fourth" value="Registrar">
+          </form>
+      
+          <!-- resetear contrseña -->
+          <div id="formFooter">
+            <a class="" href="{% url 'index' %}">Volver al home</a> |
+            <a class="" href="{% url 'login' %} ">Ingresar</a>
+          </div>
+      
+        </div>
+      </div>
+
+    
+     
+</body>
+</html>

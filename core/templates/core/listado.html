@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {%   load static %}
+    <link rel="stylesheet" href="{% static 'core/css/style2.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/bootstrap.css' %}" type="text/css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <title>Generic</title>
+    <link rel="icon" href="{% static 'core/img/sticker_4.png' %}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+
+    
+    <div id="container-fluid">
+        <div id="header">
+            <nav class="navbar navbar-expand-md navbar-dark bg-rojo-opaco" id="header">
+                <button class="navbar-toggler navbar-toggler-left" type="button" data-toggle="collapse" data-target="#menuDesplegable">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="menuDesplegable">
+                    <ul class="navbar-nav">
+                        <li class="nav-item active mr-4">
+                            <a class="nav-link" href="{% url 'index' %}">Inicio</a>
+                        </li>
+                        <li class="nav-item mr-4">
+                            <a class="nav-link" href="{% url 'feriados' %}">Feriados</a>
+                        </li>
+
+                        {% if user.is_authenticated is not True %}
+                        <li class="nav-item mr-4">
+                            <a class="nav-link" href="{% url 'registro' %}">Registro</a>
+                        </li>
+                        {% endif %}
+
+                        {% if user.is_authenticated and perms.core.add_producto %}
+                        <li class="nav-item mr-4">
+                            <a class="nav-link" href="{% url 'registro' %}">Registro</a>
+                        </li>
+                        {%  else %}
+
+                        {% endif %}
+
+
+                        <li class="nav-item mr-4">
+                            <a class="nav-link" href="{% url 'contacto' %}">Contacto</a>
+                        </li>
+                        <li class="nav-item active mr-4">
+                            <a class="nav-link" href="{% url 'listado' %}">Listado</a>
+                        </li>
+
+
+                        {% if user.is_authenticated %}
+                
+                        <li class="nav-item mr-4  ">
+                        <a class="nav-link" href="#">Bienvenido : {{ user.username }} </a>
+                        </li>
+                        <li class="nav-item mr-4">
+                        <a class="nav-link" href="{% url 'logout' %}">Cerrar Sesión</a>
+                        </li>
+                
+                {% else %}
+
+                    <li class="nav-item mr-4">
+                        <a class="nav-link" href="{% url 'login' %}">Iniciar Sesión</a>
+                    </li>
+
+                {% endif %}
+        
+                    </ul>
+                </div>
+            </nav>        
+        </div>
+<div id="body">
+
+    <div class="container">
+
+       
+ 
+        <div class="row>       
+
+            <div class="col-12 table-responsive ">
+                <h1 style="text-align: center; padding: 25px ;">Listado de Productos</h1>   
+                <table class="table table-hover thead-dark">
+
+                    <tr>
+                        <th>Codigo</th>
+                        <th>Modelo</th>
+                        <th>Precio</th>
+                        <th>Color</th>
+                        <th>Talla</th>
+                        <th>Marca</th>
+                        <th>Imagen</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+
+                    {% for x in lista %} 
+                    <tr>
+                        <td>{{x.codigo}}</td>                        
+                        <td>{{x.modelo}}</td>                        
+                        <td>{{x.precio}}</td>                        
+                        <td>{{x.color}}</td>                        
+                        <td>{{x.talla}}</td>                        
+                        <td>{{x.marca}}</td> 
+                        <td>
+                            <!-- cargar la imagen -->
+                            {% if x.imagen %}
+                                <img src="{{ x.imagen.url }}" alt="img1" width="120" height="90">
+                            {% endif %}
+
+                        </td>  
+                        
+                        {% if perms.core.delete_producto %}
+                        <td> <a href="#"  onclick="eliminar({{ x.id }})"  class="btn btn-danger" >Eliminar</a> </td>
+                        {% endif %}
+
+                        {% if perms.core.change_producto %}
+                        <td> <a href="{%  url 'modificar' x.id  %}" class="btn btn-warning" >Modificar</a> </td>
+                        {% endif %}
+                    </tr>
+
+                    {%  endfor  %}
+
+                </table>
+                <script>
+                    function eliminar(id){
+                        
+                       Swal.fire({
+                            "title" : "¿Estás seguro?",
+                            "text"  : "esta acción no se puede deshacer",
+                            "icon"  : "question",
+                            "showCancelButton"  : true,
+                            "cancelButtonText"  : "No, Cancelar",
+                            "confirmButtonText" : "Si, Eliminar", 
+                            "reverseButtons" : true,
+                            "confirmButtonColor" : "#dc3545"
+                       }).then(function(result){
+                            
+                            if(result.isConfirmed){
+                                window.location.href = "/eliminar/"+id+"/"
+                            }
+
+                       })
+
+                    }
+
+                </script>
+
+
+
+            </div>   
+            
+
+        </div>
+
+
+    </div>
+
+</div>
+
+    <<div id="footer">
+        <footer class="page-footer">
+            <div class="footer-copyright text-center py-3 ">© 2021 Copyright:
+                <a href="#">generic.cl</a>
+            </div>
+        </footer>
+    </div>
+
+ <script src="{% static 'core/js/jquery-3.3.1.slim.min.js' %}"></script>
+ <script src="{% static 'core/js/popper.min.js' %}"></script>
+ <script src="{% static 'core/js/bootstrap.min.js' %}"></script>
+ 
+ <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js"></script>
+ <script src="{% static 'core/js/validaciones.js' %}"></script>
+</body>
+</html>

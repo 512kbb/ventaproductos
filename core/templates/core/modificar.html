@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {%   load static %}
+    <link rel="stylesheet" href="{% static 'core/css/style2.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/bootstrap.css' %}" type="text/css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <title>Generic</title>
+    <link rel="icon" href="{% static 'core/img/sticker_4.png' %}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <div id="container">
+        <div id="header">
+            <nav class="navbar navbar-expand-md navbar-dark bg-rojo-opaco">
+                <button class="navbar-toggler navbar-toggler-left" type="button" data-toggle="collapse" data-target="#menuDesplegable">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="menuDesplegable">
+                    <ul class="navbar-nav">
+                        <li class="nav-item  mr-4">
+                            <a class="nav-link" href="{% url 'index' %}">Inicio</a>
+                        </li>
+                        <li class="nav-item mr-4">
+                            <a class="nav-link" href="{% url 'feriados' %}">Feriados</a>
+                        </li>
+                        <li class="nav-item  mr-4">
+                            <a class="nav-link" href="{% url 'registro' %}">Registro</a>
+                        </li>
+                        <li class="nav-item mr-4">
+                            <a class="nav-link" href="{% url 'contacto' %}">Contacto</a>
+                        </li>
+                        <li class="nav-item mr-4">
+                            <a class="nav-link" href="{% url 'listado' %}">Listado</a>
+                        </li>
+
+                        {% if user.is_authenticated %}
+                
+                        <li class="nav-item mr-4  ">
+                        <a class="nav-link" href="#">Bienvenido : {{ user.username }} </a>
+                        </li>
+                        <li class="nav-item mr-4">
+                        <a class="nav-link" href="{% url 'logout' %}">Cerrar Sesión</a>
+                        </li>
+
+                        <li class="nav-item active mr-4">
+                            <a class="nav-link" href="#">Modificar</a>
+                        </li>
+                
+                {% else %}
+
+                    <li class="nav-item mr-4">
+                        <a class="nav-link" href="{% url 'login' %}">Iniciar Sesión</a>
+                    </li>
+
+                {% endif %}
+        
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <div id="body">
+            <div class="form-container bg-light">
+                <article class="card-body mx-auto" style="max-width: 450px;">
+                    <h2 class="card-title mt-2 text-center">Registro de productos</h2>
+                    <p class="text-center">rellene los campos requeridos</p>
+                    
+                    <p class="divider-text">
+                        <span class="bg-light"></span>
+                    </p>
+                    <form  id="formulario-registro" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <input name="txtCodigo" id="txtCodigo" class="form-control" type="text"  placeholder="Codigo del producto" maxlength="5" value="{{producto.codigo}}">
+                            </div>
+        
+                            <div class="form-group  col-md-12">
+        
+                              <input name="txtModelo"  class="form-control" id="txtModelo" type="text" placeholder="Modelo" value="{{producto.modelo}}">
+                            </div>
+                    
+        
+                            <div class="form-group input-group col-md-12">
+                                
+                                <select id="cboMarca" name="cboMarca" class="custom-select cboMarca">
+                            
+                                    <option
+                                    
+                                    value="0">Seleccione</option>
+                                    {% for x in marcas %}
+                                    <option 
+                                    {% if x.id == producto.marca.id   %}
+                                           {{'selected'}}
+                                           {% endif %}
+                                    value="{{ x.id }}">{{ x.nombre }}</option>
+                                    {% endfor %}
+        
+                                </select>
+                                
+                            </div> 
+                            <div class="form-group col-md-12">
+        
+                                <input type="text" name="txtPrecio" id="txtPrecio" class="form-control" placeholder="Precio"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57 ) " value="{{producto.precio}}">
+                            </div>
+                            <div class="form-group col-md-12">
+        
+                              <input type="text" name="txtColor" id="txtColor" class="form-control" placeholder="Color" value="{{producto.color}}">
+                             
+                            </div>
+                            
+                            <!-- <div class="form-group input-group col-md-12">
+                                
+                                <select class="custom-select cboTalla" name="cboTalla" id="cboTalla">
+                                    <option selected="0">S</option>
+                                    <option value="1">M</option>
+                                    <option value="2">L</option>
+                                    <option value="3">XL</option>
+                                </select>
+                                
+                            </div>  -->
+
+                            <div class="form-group col-md-12">
+        
+                                <input type="text" name="txtTalla" id="txtTalla" class="form-control" placeholder="Talla" value="{{producto.talla}}">
+                               
+                              </div>
+
+                              <div class="form-group col-md-12">
+
+                                <input type="file" class="" id="txtImagen" name="txtImagen" accept=".png, .jpg, .jpeg">
+
+                             </div>
+                             
+                             <div class="form-group col-md-12">
+
+                                 <input type="button" onclick="modificar({{producto.id}})" class="btn btn-primary btn-block" id="btnModificar" name="btnModificar" value="Modificar">
+                            </div>  
+                            
+                            
+                            <div class="form-group col-md-12">
+
+                                {% if producto.imagen %}
+                                <img src="{{producto.imagen.url}}" alt="">
+                                {% endif %}
+                            </div>
+                            
+                            
+        
+                        </div>    
+                               
+                    </form>
+                    <script>
+                        function modificar(id){
+                            
+                           Swal.fire({
+                                "title" : "¿Estás seguro?",
+                                "text"  : "esta acción no se puede deshacer",
+                                "icon"  : "question",
+                                "showCancelButton"  : true,
+                                "cancelButtonText"  : "No, Cancelar",
+                                "confirmButtonText" : "Si, Modificar", 
+                                "reverseButtons" : true,
+                                "confirmButtonColor" : "#ADD8E6"
+                           }).then(function(result){
+                                
+                                if(result.isConfirmed){
+                                    document.getElementById("formulario-registro").submit();
+                                }
+        
+                           })
+        
+                        }
+        
+                    </script>
+                </article>
+            </div> 
+            
+        </div>
+        <div id="footer">
+            <footer class="page-footer">
+                <div class="footer-copyright text-center py-3 ">© 2021 Copyright:
+                    <a href="#">generic.cl</a>
+                </div>
+            </footer>
+        </div>
+     </div>
+     <script src="{% static 'core/js/jquery-3.3.1.slim.min.js' %} "></script>
+     <script src="{% static 'core/js/popper.min.js' %} "></script>
+     <script src="{% static 'core/js/bootstrap.min.js' %} "></script>
+     
+     <!-- Jquery validate -->
+     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js"></script>
+     <script src="{% static 'core/js/validaciones.js' %}"></script>
+</body>
+</html>
