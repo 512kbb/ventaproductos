@@ -6,6 +6,7 @@ from .models import Producto, Marca
 
 from .forms import CustomUserCreationForm
 from django.contrib.auth import authenticate, login
+from .filters import productoFiltro
 
 
 # Create your views here.
@@ -24,8 +25,11 @@ def feriados(request):
 def listado(request):
     listado_productos = Producto.objects.all() 
     
+    filtro = productoFiltro(request.POST, queryset=listado_productos)
+    listado_productos = filtro.qs
 
-    data = { "lista" : listado_productos }
+    data = { "lista" : listado_productos,
+             "filtro" : filtro           }
 
     return render(request, 'core/listado.html', data)
 
