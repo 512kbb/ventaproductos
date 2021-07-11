@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'clearcache',
     'rest_framework',
     'rest_producto',
+    'widget_tweaks',
 
 ]
 
