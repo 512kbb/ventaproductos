@@ -72,9 +72,9 @@ def detalle_productos(request, codigo):
 
 @csrf_exempt
 @api_view(['GET', 'PUT', 'DELETE'])
-def detalle_marcas(request, nombre):
+def detalle_marcas(request, id):
     try:
-        marca = Marca.objects.get(nombre = nombre)
+        marca = Marca.objects.get(id = id)
     except:
         return Response(status= status.HTTP_404_NOT_FOUND)
     
